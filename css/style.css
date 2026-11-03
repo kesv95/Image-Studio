@@ -1,0 +1,565 @@
+/* ─────────────────────────────────────────────
+   테마 변수
+───────────────────────────────────────────── */
+:root {
+    --bg: #0f1115;
+    --panel: #171a21;
+    --panel2: #1f232c;
+    --line: #2b303b;
+    --text: #e7ebf0;
+    --muted: #9aa4b2;
+    --accent: #5b8cff;
+    --danger: #ff5c72;
+    --ok: #35d07f;
+    --shadow: 0 10px 30px rgba(0, 0, 0, .4);
+
+    /* 편집 오버레이(점선/회전 핸들) */
+    --overlay-frame: #22d3ee;
+    --overlay-frame-ink: #0f1115;
+}
+
+:root[data-theme="light"] {
+    --bg: #f3f5f9;
+    --panel: #ffffff;
+    --panel2: #eef1f6;
+    --line: #d7dde7;
+    --text: #1a1f2b;
+    --muted: #5d6675;
+    --accent: #3f6fe0;
+    --danger: #e0455c;
+    --ok: #1f9d63;
+    --shadow: 0 10px 30px rgba(20, 30, 60, .12);
+
+    --overlay-frame: #0ea5e9;
+    --overlay-frame-ink: #ffffff;
+}
+
+/* ─────────────────────────────────────────────
+   기본 리셋/레이아웃
+───────────────────────────────────────────── */
+* {
+    box-sizing: border-box
+}
+
+html, body {
+    height: 100%
+}
+
+body {
+    margin: 0;
+    font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    transition: background .2s, color .2s;
+}
+
+header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    background: var(--panel);
+    transition: background .2s, border-color .2s;
+}
+
+header h1 {
+    font-size: 18px;
+    margin: 0;
+}
+
+header .sub {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.spacer {
+    flex: 1
+}
+
+.layout {
+    display: grid;
+    grid-template-columns:340px 1fr;
+    gap: 16px;
+    padding: 16px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+@media (max-width: 900px) {
+    .layout {
+        grid-template-columns:1fr
+    }
+}
+
+.panel {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 14px;
+    transition: background .2s, border-color .2s;
+}
+
+.panel h2 {
+    font-size: 13px;
+    color: var(--muted);
+    margin: 0 0 10px;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+}
+
+/* ─────────────────────────────────────────────
+   폼 요소
+───────────────────────────────────────────── */
+.field {
+    margin-bottom: 12px;
+}
+
+.field label {
+    display: block;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 4px;
+}
+
+input[type="text"], input[type="number"], input[type="color"], select, textarea {
+    width: 100%;
+    background: var(--panel2);
+    border: 1px solid var(--line);
+    color: var(--text);
+    border-radius: 8px;
+    padding: 8px 10px;
+    font: inherit;
+    font-size: 13px;
+}
+
+input[type="color"] {
+    padding: 2px;
+    height: 36px;
+    cursor: pointer;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 70px;
+    line-height: 1.4;
+}
+
+.row {
+    display: flex;
+    gap: 8px;
+}
+
+.row > * {
+    flex: 1;
+}
+
+button {
+    background: var(--panel2);
+    color: var(--text);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 9px 12px;
+    font: inherit;
+    font-size: 13px;
+    cursor: pointer;
+    transition: .15s;
+}
+
+button:hover {
+    border-color: var(--accent)
+}
+
+button.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    font-weight: 600;
+}
+
+button.primary:hover {
+    filter: brightness(1.1)
+}
+
+button:disabled {
+    opacity: .5;
+    cursor: not-allowed
+}
+
+.btn-group {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+}
+
+/* ─────────────────────────────────────────────
+   비율 탭
+───────────────────────────────────────────── */
+.ratio-tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.ratio-tabs button {
+    flex: 0 0 auto;
+    min-width: 64px;
+    padding: 7px 10px;
+    font-size: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+.ratio-tabs button.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+}
+
+.ratio-tabs .tag {
+    font-size: 9px;
+    font-weight: 700;
+    opacity: .75;
+    background: rgba(255, 255, 255, .12);
+    border-radius: 4px;
+    padding: 1px 4px;
+}
+
+.ratio-tabs button.active .tag {
+    background: rgba(255, 255, 255, .25);
+}
+
+:root[data-theme="light"] .ratio-tabs .tag {
+    background: rgba(0, 0, 0, .08);
+}
+
+:root[data-theme="light"] .ratio-tabs button.active .tag {
+    background: rgba(255, 255, 255, .35);
+}
+
+/* ─────────────────────────────────────────────
+   테마 토글
+───────────────────────────────────────────── */
+.theme-toggle {
+    display: inline-flex;
+    gap: 2px;
+    padding: 3px;
+    border-radius: 10px;
+    background: var(--panel2);
+    border: 1px solid var(--line);
+}
+
+.theme-toggle button {
+    width: 34px;
+    height: 28px;
+    padding: 0;
+    border-radius: 7px;
+    border: 1px solid transparent;
+    background: transparent;
+    cursor: pointer;
+    font-size: 15px;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: .15s;
+}
+
+.theme-toggle button:hover {
+    border-color: var(--line);
+}
+
+.theme-toggle button.active {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px var(--accent) inset;
+    background: rgba(91, 140, 255, .12);
+}
+
+/* ─────────────────────────────────────────────
+   캔버스 스테이지
+───────────────────────────────────────────── */
+.stage-wrap {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 520px;
+}
+
+#stage {
+    position: relative;
+    background: #000;
+    overflow: hidden;
+    border-radius: 6px;
+    box-shadow: 0 0 0 1px var(--line), var(--shadow);
+    max-width: 100%;
+}
+
+#stage canvas {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    cursor: crosshair;
+    touch-action: none;
+}
+
+#stage.dragging canvas {
+    cursor: grabbing;
+}
+
+.hint {
+    font-size: 11px;
+    color: var(--muted);
+    text-align: center;
+    margin-top: 8px;
+}
+
+/* ─────────────────────────────────────────────
+   메시지
+───────────────────────────────────────────── */
+.msg {
+    font-size: 12px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    margin-top: 10px;
+    display: none;
+    border: 1px solid transparent;
+    line-height: 1.4;
+}
+
+.msg.show {
+    display: block
+}
+
+.msg.err {
+    background: rgba(255, 92, 114, .1);
+    border-color: rgba(255, 92, 114, .4);
+    color: #ff8b9a;
+}
+
+.msg.ok {
+    background: rgba(53, 208, 127, .1);
+    border-color: rgba(53, 208, 127, .4);
+    color: #3fd28a;
+}
+
+:root[data-theme="light"] .msg.err {
+    background: rgba(224, 69, 92, .08);
+    border-color: rgba(224, 69, 92, .35);
+    color: #b7263d;
+}
+
+:root[data-theme="light"] .msg.ok {
+    background: rgba(31, 157, 99, .08);
+    border-color: rgba(31, 157, 99, .35);
+    color: #157a4b;
+}
+
+/* ─────────────────────────────────────────────
+   드롭존
+───────────────────────────────────────────── */
+.drop {
+    border: 1.5px dashed var(--line);
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+    cursor: pointer;
+    transition: .15s;
+}
+
+.drop:hover, .drop.over {
+    border-color: var(--accent);
+    color: var(--text);
+}
+
+/* ─────────────────────────────────────────────
+   템플릿 리스트
+───────────────────────────────────────────── */
+.tmpl-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 200px;
+    overflow: auto;
+}
+
+.tmpl-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    background: var(--panel2);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.tmpl-item:hover {
+    border-color: var(--accent)
+}
+
+.tmpl-item .name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tmpl-item .del {
+    color: var(--danger);
+    font-size: 11px;
+    padding: 2px 6px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    background: none;
+}
+
+.tmpl-item .del:hover {
+    border-color: var(--danger)
+}
+
+.small {
+    font-size: 11px;
+    color: var(--muted);
+}
+
+/* ─────────────────────────────────────────────
+   편집 오버레이 (점선 프레임 + 회전 핸들)
+   ※ 다운로드 결과물에는 포함되지 않음
+───────────────────────────────────────────── */
+#overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: visible;
+}
+
+#frame {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100px;
+    height: 100px;
+    border: 2px dashed var(--overlay-frame);
+    border-radius: 6px;
+    transform-origin: center center;
+    pointer-events: auto;
+    cursor: move;
+    box-sizing: border-box;
+    transition: border-color .15s;
+}
+
+#frame.hidden {
+    display: none;
+}
+
+#rotateHandle {
+    position: absolute;
+    right: -14px;
+    top: -14px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--overlay-frame);
+    color: var(--overlay-frame-ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: grab;
+    pointer-events: auto;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .35),
+    0 0 0 2px rgba(0, 0, 0, .25),
+    0 0 0 4px rgba(34, 211, 238, .18);
+    user-select: none;
+    touch-action: none;
+    transition: background .15s, box-shadow .15s;
+}
+
+#rotateHandle:hover {
+    filter: brightness(1.08);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .35),
+    0 0 0 2px rgba(0, 0, 0, .25),
+    0 0 0 5px rgba(34, 211, 238, .28);
+}
+
+#rotateHandle:active {
+    cursor: grabbing;
+}
+
+#rotateHandle svg {
+    display: block;
+}
+
+/* 브러시 도구 활성 시 프레임 숨김 */
+body[data-tool="brush"] #frame,
+body[data-tool="eraser"] #frame {
+    display: none;
+}
+
+body[data-tool="brush"] #canvas,
+body[data-tool="eraser"] #canvas {
+    cursor: crosshair;
+}
+
+body[data-tool="select"] #canvas {
+    cursor: default;
+}
+
+/* ─────────────────────────────────────────────
+   슬라이더(불투명도 등)
+───────────────────────────────────────────── */
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 32px;
+    background: transparent;
+    cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+    height: 6px;
+    border-radius: 3px;
+    background: var(--panel2);
+    border: 1px solid var(--line);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    margin-top: -7px;
+    background: var(--accent);
+    border: 2px solid var(--panel);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+}
+
+input[type="range"]::-moz-range-track {
+    height: 6px;
+    border-radius: 3px;
+    background: var(--panel2);
+    border: 1px solid var(--line);
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--panel);
+}

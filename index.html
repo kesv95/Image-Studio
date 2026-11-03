@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>짤·카드 스튜디오</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header>
+    <h1>🎨 짤·카드 스튜디오</h1>
+    <span class="sub">이미지 + 문구 → 밈/카드/SNS 이미지 · PNG/JPEG 내려받기</span>
+
+    <div class="spacer"></div>
+
+    <!-- 화면 테마 (다크 / 라이트) -->
+    <div class="theme-toggle" id="themeToggle" role="group" aria-label="화면 테마">
+        <button type="button" data-theme="dark" class="active" title="다크" aria-label="다크 테마">🌙</button>
+        <button type="button" data-theme="light" title="라이트" aria-label="라이트 테마">☀️</button>
+    </div>
+
+    <span class="small" id="statusDot">준비됨</span>
+</header>
+
+<div class="layout">
+    <!-- ───────── 좌측 컨트롤 ───────── -->
+    <div>
+        <!-- 1. 이미지 -->
+        <div class="panel" style="margin-bottom:16px">
+            <h2>1. 이미지</h2>
+            <div class="drop" id="dropZone">클릭 또는 파일을 여기로 드래그<br><span class="small">PNG · JPEG 지원</span></div>
+            <input type="file" id="fileInput" accept="image/png,image/jpeg" hidden/>
+            <div id="fileMsg" class="msg"></div>
+            <div class="btn-group">
+                <button id="removeImgBtn" disabled>이미지 제거</button>
+            </div>
+        </div>
+
+        <!-- 2. 문구 -->
+        <div class="panel" style="margin-bottom:16px">
+            <h2>2. 문구</h2>
+            <div class="field">
+                <label>텍스트</label>
+                <textarea id="textInput" placeholder="여기에 문구를 입력하세요">안녕하세요 👋
+짤·카드 스튜디오</textarea>
+            </div>
+            <div class="row">
+                <div class="field">
+                    <label>글자 크기 (px)</label>
+                    <input type="number" id="fontSize" value="48" min="8" max="400" step="1"/>
+                </div>
+                <div class="field">
+                    <label>색상</label>
+                    <input type="color" id="textColor" value="#ffffff"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="field">
+                    <label>X 위치 (%)</label>
+                    <input type="number" id="posX" value="50" min="0" max="100" step="1"/>
+                </div>
+                <div class="field">
+                    <label>Y 위치 (%)</label>
+                    <input type="number" id="posY" value="50" min="0" max="100" step="1"/>
+                </div>
+            </div>
+            <div class="field">
+                <label>정렬</label>
+                <select id="align">
+                    <option value="center">가운데</option>
+                    <option value="left">왼쪽</option>
+                    <option value="right">오른쪽</option>
+                </select>
+            </div>
+            <div class="field">
+                <label>외곽선</label>
+                <div class="row">
+                    <select id="strokeOn" style="flex:2">
+                        <option value="on" selected>켜기</option>
+                        <option value="off">끄기</option>
+                    </select>
+                    <input type="color" id="strokeColor" value="#000000" style="flex:1"/>
+                </div>
+            </div>
+            <div class="small">💡 캔버스를 드래그해서 문구 위치를 옮길 수 있어요.</div>
+        </div>
+
+        <!-- 3. 브러시 (그림판) -->
+        <div class="panel" style="margin-bottom:16px">
+            <h2>3. 브러시 (그림판)</h2>
+            <div class="field">
+                <label>도구</label>
+                <div class="row">
+                    <button id="selectToolBtn" class="primary" style="flex:1">🖱️ 선택/이동</button>
+                    <button id="brushToolBtn" style="flex:1">✏️ 펜</button>
+                    <button id="eraserToolBtn" style="flex:1">🧽 지우개</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="field">
+                    <label>굵기 (px)</label>
+                    <input type="number" id="brushSize" value="8" min="1" max="200" step="1"/>
+                </div>
+                <div class="field">
+                    <label>색상</label>
+                    <input type="color" id="brushColor" value="#ff3b30"/>
+                </div>
+            </div>
+            <div class="field">
+                <label>불투명도 (<span id="brushAlphaVal">100</span>%)</label>
+                <input type="range" id="brushAlpha" min="10" max="100" step="1" value="100"/>
+            </div>
+            <div class="btn-group">
+                <button id="brushUndoBtn" style="flex:1">↩︎ 실행 취소</button>
+                <button id="brushClearBtn" style="flex:1">🗑️ 낙서 전체 삭제</button>
+            </div>
+            <div class="small">💡 캔버스 위에서 마우스로 직접 그려보세요. 지우개는 낙서만 지우고 이미지·문구는 유지됩니다.</div>
+        </div>
+
+        <!-- 4. 템플릿 -->
+        <div class="panel" style="margin-bottom:16px">
+            <h2>4. 템플릿</h2>
+            <div class="field">
+                <input type="text" id="tmplName" placeholder="템플릿 이름"/>
+            </div>
+            <div class="btn-group">
+                <button id="saveTmplBtn" class="primary">저장</button>
+                <button id="exportJsonBtn">JSON 내보내기</button>
+                <button id="importJsonBtn">JSON 불러오기</button>
+            </div>
+            <input type="file" id="jsonInput" accept="application/json,.json" hidden/>
+            <div id="tmplMsg" class="msg"></div>
+            <div class="tmpl-list" id="tmplList" style="margin-top:10px"></div>
+        </div>
+    </div>
+    <!-- ───────── 우측 미리보기 ───────── -->
+    <div>
+        <div class="panel" style="margin-bottom:16px">
+            <div class="ratio-tabs" id="ratioTabs">
+                <button data-ratio="1:1" class="active" title="정사각형 (S)">1:1 <span class="tag">S</span></button>
+                <button data-ratio="4:5" title="SNS 세로">4:5</button>
+                <button data-ratio="9:16" title="스토리">9:16</button>
+                <button data-ratio="4:3" title="인물화 가로 (F)">4:3 <span class="tag">F</span></button>
+                <button data-ratio="3:4" title="인물화 세로 (F)">3:4 <span class="tag">F</span></button>
+                <button data-ratio="3:2" title="풍경화 (P)">3:2 <span class="tag">P</span></button>
+                <button data-ratio="16:9" title="와이드 (M)">16:9 <span class="tag">M</span></button>
+            </div>
+
+            <div class="stage-wrap">
+                <div id="stage">
+                    <canvas id="canvas"></canvas>
+                    <!-- 편집용 오버레이 (다운로드 미포함) -->
+                    <div id="overlay" aria-hidden="true">
+                        <div id="frame">
+                            <div id="rotateHandle" title="드래그해서 회전">
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none"
+                                     stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                     stroke-linejoin="round">
+                                    <path d="M21 12a9 9 0 1 1-3.2-6.9"/>
+                                    <polyline points="21 3 21 9 15 9"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hint">점선 프레임을 드래그하면 이동, 우측 상단 핸들로 회전 · 결과물엔 점선이 포함되지 않습니다</div>
+            </div>
+
+            <div class="btn-group" style="margin-top:12px">
+                <button id="downloadPngBtn" class="primary" style="flex:1">PNG 내려받기</button>
+                <button id="downloadJpegBtn" style="flex:1">JPEG 내려받기</button>
+            </div>
+            <div id="saveMsg" class="msg"></div>
+        </div>
+    </div>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
