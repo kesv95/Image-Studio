@@ -563,3 +563,21 @@ input[type="range"]::-moz-range-thumb {
     background: var(--accent);
     border: 2px solid var(--panel);
 }
+
+/* 브러시 도구 버튼 3개가 한 줄에 들어가도록 */
+#brushToolBtn,
+#eraserToolBtn,
+#selectToolBtn {
+    flex: 1 1 0;
+    min-width: 0; /* 텍스트 길이로 인한 최소 폭 제한 제거 */
+    padding: 8px 4px; /* 좌우 패딩 축소 */
+    font-size: 12px;
+    white-space: nowrap; /* 버튼 안 텍스트는 줄바꿈 금지 */
+    overflow: hidden;
+    letter-spacing: -0.2px;
+    text-overflow: ellipsis;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+}
